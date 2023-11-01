@@ -26,17 +26,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.djaytan.mc</groupId>
-    <artifactId>mc-spring-plugin-template</artifactId>
+    <groupId>fr.cosmageia.mc</groupId>
+    <artifactId>mc-cosmageia-economy</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Minecraft Spring Plugin Template</name>
-    <description>Minecraft plugin template based on Spring framework</description>
+    <name>Cosmageïa Economy Plugin</name>
 
     <modules>
-        <module>template-core</module>
-        <module>template-plugin</module>
+        <module>economy-core</module>
+        <module>papermc-plugin</module>
     </modules>
 
     <properties>
@@ -63,7 +62,7 @@
             <!-- Internal dependencies -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>template-core</artifactId>
+                <artifactId>economy-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -423,7 +422,7 @@
                     <failOnError>true</failOnError>
                     <skipProvidedScope>true</skipProvidedScope>
                     <excludes>
-						<!--
+                        <!--
 							H2 shall not be used for production code.
 							But for this demo project this is acceptable
 						-->
@@ -449,7 +448,7 @@
         </plugins>
     </build>
 
-    <url>https://github.com/Cosmageia/mc-spring-boot-plugin-template</url>
+    <url>https://github.com/Cosmageia/mc-cosmageia-economy</url>
     <inceptionYear>2023</inceptionYear>
 
     <licenses>
@@ -462,7 +461,7 @@
     <scm>
         <connection>scm:git:${project.scm.url}</connection>
         <developerConnection>scm:git:${project.scm.url}</developerConnection>
-        <url>git@github.com:Cosmageia/mc-spring-boot-plugin-template.git</url>
+        <url>git@github.com:Cosmageia/mc-cosmageia-economy.git</url>
         <tag>HEAD</tag>
     </scm>
 

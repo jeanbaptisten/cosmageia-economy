@@ -20,7 +20,7 @@ Discussions are where we have conversations.
 
 If you'd like to help troubleshooting a PR you're working on, have a great new idea, or want to
 share something amazing you've experimented with our product, join us in
-[discussions](https://github.com/Cosmageia/mc-spring-plugin-template/discussions).
+[discussions](https://github.com/Cosmageia/mc-cosmageia-economy/discussions).
 
 ### 🐞 Issues
 
@@ -30,7 +30,7 @@ we haven't reviewed it yet, and you shouldn't begin work on it.
 
 If you've found a bug, a weird behavior or an exploit, search open issues to see if someone else has
 reported the same thing. If it's something new, open an issue using
-a [template](https://github.com/Cosmageia/mc-spring-plugin-template/issues/new/choose). We'll use
+a [template](https://github.com/Cosmageia/mc-cosmageia-economy/issues/new/choose). We'll use
 the issue to have a conversation about the problem you want to fix.
 
 ### 🛠️ Pull requests
@@ -43,7 +43,7 @@ in the next release by the maintainer. 🌍
 
 Asking questions is a way for you to be unblocked, and by doing so, this could help other people too
 if they are interested in the answer! Thus, the best place for asking support is
-under [discussions](https://github.com/Cosmageia/mc-spring-plugin-template/discussions).
+under [discussions](https://github.com/Cosmageia/mc-cosmageia-economy/discussions).
 
 Furthermore, rest assured that the community will try to find the best way to help you! ✨
 
@@ -74,7 +74,7 @@ this command at the root project:
 
     $ mvn clean verify
 
-You will find the packaged JAR file of the PaperMC plugin at `template-plugin/target`.
+You will find the packaged JAR file of the PaperMC plugin at `papermc-plugin/target`.
 If you want to test it, copy it into your local PaperMC server by taking care that the server
 version is compatible with the plugin.
 
@@ -87,7 +87,7 @@ A [wiki](https://docs.papermc.io/paper/dev) exists as well to get familiar with 
 concepts.
 
 Anyway, if you have any question, don't hesitate to
-[ask us](https://github.com/Cosmageia/mc-spring-plugin-template/discussions)!
+[ask us](https://github.com/Cosmageia/mc-cosmageia-economy/discussions)!
 We are here to help you for getting started.
 
 ## Pull Requests

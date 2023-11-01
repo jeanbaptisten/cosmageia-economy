@@ -1,0 +1,7 @@
+# PaperMC plugin declaration file: https://docs.papermc.io/paper/dev/getting-started/paper-plugins
+name: ${plugin.name}
+version: '${project.version}'
+main: ${package.root}.plugin.EconomyPlugin
+description: Cosmageïa's economy plugin
+api-version: '1.20'
+author: Cosmageïa
