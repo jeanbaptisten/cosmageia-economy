@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    The MIT License
+    Copyright © 2023 Loïc DUBOIS-TERMOZ (alias Djaytan)
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.djaytan.mc</groupId>
+    <artifactId>mc-spring-plugin-template</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Minecraft Spring Plugin Template</name>
+    <description>Minecraft plugin template based on Spring framework</description>
+
+    <modules>
+        <module>template-core</module>
+        <module>template-plugin</module>
+    </modules>
+
+    <properties>
+        <!-- ==================== General ==================== -->
+        <java.version>17</java.version>
+        <project.encoding>UTF-8</project.encoding>
+        <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+        <rootpom.basedir>${project.basedir}</rootpom.basedir>
+
+        <!-- ==================== Sonar ==================== -->
+        <!-- sonar.projectKey must be defined through CLI only -->
+        <sonar.organization>cosmageia</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/**/target/site/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+        <!-- ==================== Dependencies ==================== -->
+        <spring-boot.version>3.1.4</spring-boot.version>
+        <adventure.version>4.14.0</adventure.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Internal dependencies -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>template-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Third-party dependencies -->
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-bom</artifactId>
+                <version>10.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli-spring-boot-starter</artifactId>
+                <version>4.7.5</version>
+            </dependency>
+            <dependency>
+                <!-- Explicit SnakeYAML dependency required until v2.0+ included into Spring -->
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>2.2.224</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>2.0.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.13.0</version>
+            </dependency>
+
+            <!-- Minecraft specific dependencies -->
+            <dependency>
+                <groupId>io.papermc.paper</groupId>
+                <artifactId>paper-api</artifactId>
+                <version>1.20.1-R0.1-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.kyori</groupId>
+                <artifactId>adventure-api</artifactId>
+                <version>${adventure.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.kyori</groupId>
+                <artifactId>adventure-text-minimessage</artifactId>
+                <version>${adventure.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>nl.jqno.equalsverifier</groupId>
+                <artifactId>equalsverifier</artifactId>
+                <version>3.15.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jparams</groupId>
+                <artifactId>to-string-verifier</artifactId>
+                <version>1.4.8</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <defaultGoal>clean verify</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>com.github.ekryd.sortpom</groupId>
+                <artifactId>sortpom-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <!-- General properties -->
+                    <createBackupFile>false</createBackupFile>
+
+                    <!-- Formatting properties -->
+                    <expandEmptyElements>false</expandEmptyElements>
+                    <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
+                    <lineSeparator>\n</lineSeparator>
+                    <nrOfIndentSpace>4</nrOfIndentSpace>
+
+                    <!-- Sorting properties -->
+                    <predefinedSortOrder>custom_1</predefinedSortOrder>
+                    <sortModules>true</sortModules>
+                    <sortPlugins>groupId,artifactId</sortPlugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>sort-pom</id>
+                        <goals>
+                            <goal>sort</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <skip>${sortpom.skipSort}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pom-sorting-check</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <skip>${sortpom.skipCheck}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>4.3</version>
+                <configuration>
+                    <properties>
+                        <owner>Loïc DUBOIS-TERMOZ (alias Djaytan)</owner>
+                    </properties>
+                    <useDefaultExcludes>true</useDefaultExcludes>
+                    <licenseSets>
+                        <licenseSet>
+                            <header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
+                            <excludes>
+                                <exclude>src/main/resources/**</exclude>
+                                <exclude>src/test/resources/**</exclude>
+                                <exclude>**/dir.empty</exclude>
+                                <exclude>.editorconfig</exclude>
+                                <exclude>renovate.json</exclude>
+                            </excludes>
+                        </licenseSet>
+                    </licenseSets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>format-header-copyright</id>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <skip>${license.skipFormat}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>check-header-copyright</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <failIfMissing>true</failIfMissing>
+                            <failIfUnknown>true</failIfUnknown>
+                            <skip>${license.skipCheck}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify.fmt</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>2.21.1</version>
+                <executions>
+                    <execution>
+                        <id>format-code</id>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <skip>${fmt.skipFormat}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>code-formatting-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <skip>${fmt.skipCheck}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <fail>true</fail>
+                    <rules>
+                        <banDuplicatePomDependencyVersions />
+                        <dependencyConvergence />
+                        <reactorModuleConvergence />
+                        <requireJavaVersion>
+                            <version>[17,)</version>
+                        </requireJavaVersion>
+                        <requireMavenVersion>
+                            <version>[3.8,)</version>
+                        </requireMavenVersion>
+                        <requirePluginVersions>
+                            <message>Best Practice is to always define plugin versions!</message>
+                            <!-- "site" phase is not applicable for this project -->
+                            <unCheckedPluginList>org.apache.maven.plugins:maven-site-plugin</unCheckedPluginList>
+                        </requirePluginVersions>
+                        <requireUpperBoundDeps />
+                    </rules>
+                    <skip>${enforcer.skip}</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <quiet>true</quiet>
+                    <additionalJOptions>
+                        <!--
+							Lenient Javadoc checks:
+							* "-html" for convenience with google-java-format auto-formatting
+							* "-missing" since it can be acceptable to not provide any Javadoc at some
+															places
+						-->
+                        <additionalJOption>-Xdoclint:all,-html,-missing</additionalJOption>
+                    </additionalJOptions>
+                    <skip>${javadoc.skip}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-and-attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <checkModificationExcludes>
+                        <checkModificationExclude>pom.xml</checkModificationExclude>
+                    </checkModificationExcludes>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <scmCommentPrefix>[ci skip]</scmCommentPrefix>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <skipSource>${attachSources.skip}</skipSource>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+                <configuration>
+                    <skip>${skipTests}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>8.4.0</version>
+                <configuration>
+                    <failBuildOnCVSS>4</failBuildOnCVSS>
+                    <failOnError>true</failOnError>
+                    <skipProvidedScope>true</skipProvidedScope>
+                    <excludes>
+						<!--
+							H2 shall not be used for production code.
+							But for this demo project this is acceptable
+						-->
+                        <exclude>com.h2database:h2</exclude>
+                    </excludes>
+                    <skip>${dependencyCheck.skip}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>dependencies-security-scan</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.10.0.2594</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <url>https://github.com/Cosmageia/mc-spring-boot-plugin-template</url>
+    <inceptionYear>2023</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+        <url>git@github.com:Cosmageia/mc-spring-boot-plugin-template.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <profiles>
+        <profile>
+            <id>localdev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <attachSources.skip>false</attachSources.skip>
+                <dependencyCheck.skip>false</dependencyCheck.skip>
+                <enforcer.skip>false</enforcer.skip>
+                <fmt.skipCheck>true</fmt.skipCheck>
+                <fmt.skipFormat>false</fmt.skipFormat>
+                <javadoc.skip>false</javadoc.skip>
+                <license.skipCheck>true</license.skipCheck>
+                <license.skipFormat>false</license.skipFormat>
+                <skipTests>false</skipTests>
+                <sortpom.skipCheck>true</sortpom.skipCheck>
+                <sortpom.skipSort>false</sortpom.skipSort>
+            </properties>
+        </profile>
+        <profile>
+            <id>continuous-integration</id>
+            <properties>
+                <attachSources.skip>false</attachSources.skip>
+                <dependencyCheck.skip>false</dependencyCheck.skip>
+                <enforcer.skip>false</enforcer.skip>
+                <fmt.skipCheck>false</fmt.skipCheck>
+                <fmt.skipFormat>true</fmt.skipFormat>
+                <javadoc.skip>false</javadoc.skip>
+                <license.skipCheck>false</license.skipCheck>
+                <license.skipFormat>true</license.skipFormat>
+                <skipTests>false</skipTests>
+                <sortpom.skipCheck>false</sortpom.skipCheck>
+                <sortpom.skipSort>true</sortpom.skipSort>
+            </properties>
+        </profile>
+        <profile>
+            <id>fast</id>
+            <properties>
+                <attachSources.skip>true</attachSources.skip>
+                <dependencyCheck.skip>true</dependencyCheck.skip>
+                <enforcer.skip>true</enforcer.skip>
+                <fmt.skipCheck>true</fmt.skipCheck>
+                <fmt.skipFormat>true</fmt.skipFormat>
+                <javadoc.skip>true</javadoc.skip>
+                <license.skipCheck>true</license.skipCheck>
+                <license.skipFormat>true</license.skipFormat>
+                <maven.test.skip.exec>true</maven.test.skip.exec>
+                <skipTests>true</skipTests>
+                <sortpom.skipCheck>true</sortpom.skipCheck>
+                <sortpom.skipSort>true</sortpom.skipSort>
+            </properties>
+        </profile>
+    </profiles>
+</project>
